@@ -13,9 +13,9 @@ import (
 
 //AuthService is a contract about something that this service can do
 type AuthService interface {
-	VerifyCredential(email string, password string) interface{}
-	CreateUser(user dto.RegisterDTO) entity.User
-	FindByEmail(email string) entity.User
+	VerifyCredential(username string, password string) interface{}
+	CreateUser(user dto.RegisterDTO) entity.Admin_users
+	FindByEmail(email string) entity.Admin_users
 	IsDuplicateEmail(email string) bool
 }
 
@@ -30,11 +30,11 @@ func NewAuthService(userRep repository.UserRepository) AuthService {
 	}
 }
 
-func (service *authService) VerifyCredential(email string, password string) interface{} {
-	res := service.userRepository.VerifyCredential(email, password)
-	if v, ok := res.(entity.User); ok {
+func (service *authService) VerifyCredential(username string, password string) interface{} {
+	res := service.userRepository.VerifyCredential(username, password)
+	if v, ok := res.(entity.Admin_users); ok {
 		comparedPassword := comparePassword(v.Password, []byte(password))
-		if v.Email == email && comparedPassword {
+		if v.Username == username && comparedPassword {
 			return res
 		}
 		return false
@@ -42,8 +42,8 @@ func (service *authService) VerifyCredential(email string, password string) inte
 	return false
 }
 
-func (service *authService) CreateUser(user dto.RegisterDTO) entity.User {
-	userToCreate := entity.User{}
+func (service *authService) CreateUser(user dto.RegisterDTO) entity.Admin_users {
+	userToCreate := entity.Admin_users{}
 	err := smapping.FillStruct(&userToCreate, smapping.MapFields(&user))
 	if err != nil {
 		log.Fatalf("Failed map %v", err)
@@ -52,7 +52,7 @@ func (service *authService) CreateUser(user dto.RegisterDTO) entity.User {
 	return res
 }
 
-func (service *authService) FindByEmail(email string) entity.User {
+func (service *authService) FindByEmail(email string) entity.Admin_users {
 	return service.userRepository.FindByEmail(email)
 }
 

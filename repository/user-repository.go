@@ -11,12 +11,12 @@ import (
 
 //UserRepository is contract what userRepository can do to db
 type UserRepository interface {
-	InsertUser(user entity.User) entity.User
-	UpdateUser(user entity.User) entity.User
+	InsertUser(user entity.Admin_users) entity.Admin_users
+	UpdateUser(user entity.Admin_users) entity.Admin_users
 	VerifyCredential(email string, password string) interface{}
 	IsDuplicateEmail(email string) (tx *gorm.DB)
-	FindByEmail(email string) entity.User
-	ProfileUser(userID string) entity.User
+	FindByEmail(email string) entity.Admin_users
+	ProfileUser(userID string) entity.Admin_users
 }
 
 type userConnection struct {
@@ -30,17 +30,17 @@ func NewUserRepository(db *gorm.DB) UserRepository {
 	}
 }
 
-func (db *userConnection) InsertUser(user entity.User) entity.User {
+func (db *userConnection) InsertUser(user entity.Admin_users) entity.Admin_users {
 	user.Password = hashAndSalt([]byte(user.Password))
 	db.connection.Save(&user)
 	return user
 }
 
-func (db *userConnection) UpdateUser(user entity.User) entity.User {
+func (db *userConnection) UpdateUser(user entity.Admin_users) entity.Admin_users {
 	if user.Password != "" {
 		user.Password = hashAndSalt([]byte(user.Password))
 	} else {
-		var tempUser entity.User
+		var tempUser entity.Admin_users
 		db.connection.Find(&tempUser, user.ID)
 		user.Password = tempUser.Password
 	}
@@ -49,9 +49,9 @@ func (db *userConnection) UpdateUser(user entity.User) entity.User {
 	return user
 }
 
-func (db *userConnection) VerifyCredential(email string, password string) interface{} {
-	var user entity.User
-	res := db.connection.Where("email = ?", email).Take(&user)
+func (db *userConnection) VerifyCredential(username string, password string) interface{} {
+	var user entity.Admin_users
+	res := db.connection.Where("username = ?", username).Take(&user)
 	if res.Error == nil {
 		return user
 	}
@@ -59,18 +59,18 @@ func (db *userConnection) VerifyCredential(email string, password string) interf
 }
 
 func (db *userConnection) IsDuplicateEmail(email string) (tx *gorm.DB) {
-	var user entity.User
+	var user entity.Admin_users
 	return db.connection.Where("email = ?", email).Take(&user)
 }
 
-func (db *userConnection) FindByEmail(email string) entity.User {
-	var user entity.User
+func (db *userConnection) FindByEmail(email string) entity.Admin_users {
+	var user entity.Admin_users
 	db.connection.Where("email = ?", email).Take(&user)
 	return user
 }
 
-func (db *userConnection) ProfileUser(userID string) entity.User {
-	var user entity.User
+func (db *userConnection) ProfileUser(userID string) entity.Admin_users {
+	var user entity.Admin_users
 	db.connection.Preload("Books").Preload("Books.User").Find(&user, userID)
 
 	return user

@@ -12,8 +12,8 @@ import (
 
 //UserService is a contract.....
 type UserService interface {
-	Update(user dto.UserUpdateDTO) entity.User
-	Profile(userID string) entity.User
+	Update(user dto.UserUpdateDTO) entity.Admin_users
+	Profile(userID string) entity.Admin_users
 }
 
 type userService struct {
@@ -27,8 +27,8 @@ func NewUserService(userRepo repository.UserRepository) UserService {
 	}
 }
 
-func (service *userService) Update(user dto.UserUpdateDTO) entity.User {
-	userToUpdate := entity.User{}
+func (service *userService) Update(user dto.UserUpdateDTO) entity.Admin_users {
+	userToUpdate := entity.Admin_users{}
 	err := smapping.FillStruct(&userToUpdate, smapping.MapFields(&user))
 	if err != nil {
 		log.Fatalf("Failed map %v:", err)
@@ -37,6 +37,6 @@ func (service *userService) Update(user dto.UserUpdateDTO) entity.User {
 	return updatedUser
 }
 
-func (service *userService) Profile(userID string) entity.User {
+func (service *userService) Profile(userID string) entity.Admin_users {
 	return service.userRepository.ProfileUser(userID)
 }

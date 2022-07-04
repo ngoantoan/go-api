@@ -39,15 +39,15 @@ func (c *authController) Login(ctx *gin.Context) {
 		ctx.AbortWithStatusJSON(http.StatusBadRequest, response)
 		return
 	}
-	authResult := c.authService.VerifyCredential(loginDTO.Email, loginDTO.Password)
-	if v, ok := authResult.(entity.User); ok {
+	authResult := c.authService.VerifyCredential(loginDTO.Username, loginDTO.Password)
+	if v, ok := authResult.(entity.Admin_users); ok {
 		generatedToken := c.jwtService.GenerateToken(strconv.FormatUint(v.ID, 10))
 		v.Token = generatedToken
 		response := helper.BuildResponse(true, "OK!", v)
 		ctx.JSON(http.StatusOK, response)
 		return
 	}
-	response := helper.BuildErrorResponse("Please check again your credential", "Invalid Credential", helper.EmptyObj{})
+	response := helper.BuildErrorResponse("Please check again your credential", "Invalid Credential", authResult)
 	ctx.AbortWithStatusJSON(http.StatusUnauthorized, response)
 }
 

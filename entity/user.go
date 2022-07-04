@@ -1,10 +1,18 @@
 package entity
 
+type Tabler interface {
+	TableName() string
+}
+
+// TableName overrides the table name used by User to `admin_users`
+func (Admin_users) TableName() string {
+	return "admin_users"
+}
+
 //User represents users table in database
-type User struct {
-	ID       uint64 `gorm:"primary_key:auto_increment" json:"id"`
-	Name     string `gorm:"type:varchar(255)" json:"name"`
-	Email    string `gorm:"uniqueIndex;type:varchar(255)" json:"email"`
-	Password string `gorm:"->;<-;not null" json:"-"`
-	Token    string `gorm:"-" json:"token,omitempty"`
+type Admin_users struct {
+	ID       uint64 `json:"id"`
+	Username string `json:"username"`
+	Password string `json:"-"`
+	Token    string `json:"token,omitempty"`
 }
