@@ -4,11 +4,12 @@ import (
 	"net/http"
 	"strconv"
 
+	"seoulspa_api/dto"
+	"seoulspa_api/entity"
+	"seoulspa_api/helper"
+	"seoulspa_api/service"
+
 	"github.com/gin-gonic/gin"
-	"golang_api/dto"
-	"golang_api/entity"
-	"golang_api/helper"
-	"golang_api/service"
 )
 
 //AuthController interface is a contract what this controller can do

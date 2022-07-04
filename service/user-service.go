@@ -3,10 +3,11 @@ package service
 import (
 	"log"
 
+	"seoulspa_api/dto"
+	"seoulspa_api/entity"
+	"seoulspa_api/repository"
+
 	"github.com/mashingan/smapping"
-	"golang_api/dto"
-	"golang_api/entity"
-	"golang_api/repository"
 )
 
 //UserService is a contract.....

@@ -4,10 +4,11 @@ import (
 	"log"
 	"net/http"
 
+	"seoulspa_api/helper"
+	"seoulspa_api/service"
+
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
-	"golang_api/helper"
-	"golang_api/service"
 )
 
 //AuthorizeJWT validates the token user given, return 401 if not valid

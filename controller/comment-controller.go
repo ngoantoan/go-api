@@ -5,9 +5,9 @@ import (
 	"net/http"
 	"strings"
 
-	dto "golang_api/dto/comment"
-	entity "golang_api/entity/comment"
-	"golang_api/helper"
+	dto "seoulspa_api/dto/comment"
+	entity "seoulspa_api/entity/comment"
+	"seoulspa_api/helper"
 
 	"github.com/gin-gonic/gin"
 )
