@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"strconv"
 
-	"seoulspa_api/dto"
+	dto "seoulspa_api/dto/admin-users"
 	"seoulspa_api/helper"
 	"seoulspa_api/service"
 

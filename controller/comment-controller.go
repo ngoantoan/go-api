@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"strings"
 
-	dto "seoulspa_api/dto/comment"
-	entity "seoulspa_api/entity/comment"
+	dto "seoulspa_api/dto/comments"
+	entity "seoulspa_api/entity/comments"
 	"seoulspa_api/helper"
 
 	"github.com/gin-gonic/gin"

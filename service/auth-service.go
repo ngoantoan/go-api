@@ -3,18 +3,16 @@ package service
 import (
 	"log"
 
-	"seoulspa_api/dto"
-	"seoulspa_api/entity"
+	entity "seoulspa-api/entity/admin_users"
 	"seoulspa_api/repository"
 
-	"github.com/mashingan/smapping"
 	"golang.org/x/crypto/bcrypt"
 )
 
 //AuthService is a contract about something that this service can do
 type AuthService interface {
 	VerifyCredential(username string, password string) interface{}
-	CreateUser(user dto.RegisterDTO) entity.Admin_users
+	// CreateUser(user dto.RegisterDTO) entity.Admin_users
 	FindByEmail(email string) entity.Admin_users
 	IsDuplicateEmail(email string) bool
 }
@@ -40,16 +38,6 @@ func (service *authService) VerifyCredential(username string, password string) i
 		return false
 	}
 	return false
-}
-
-func (service *authService) CreateUser(user dto.RegisterDTO) entity.Admin_users {
-	userToCreate := entity.Admin_users{}
-	err := smapping.FillStruct(&userToCreate, smapping.MapFields(&user))
-	if err != nil {
-		log.Fatalf("Failed map %v", err)
-	}
-	res := service.userRepository.InsertUser(userToCreate)
-	return res
 }
 
 func (service *authService) FindByEmail(email string) entity.Admin_users {

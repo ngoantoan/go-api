@@ -2,10 +2,10 @@ package controller
 
 import (
 	"net/http"
+	entity "seoulspa-api/entity/admin_users"
 	"strconv"
 
-	"seoulspa_api/dto"
-	"seoulspa_api/entity"
+	dto "seoulspa_api/dto/admin-users"
 	"seoulspa_api/helper"
 	"seoulspa_api/service"
 
@@ -15,7 +15,7 @@ import (
 //AuthController interface is a contract what this controller can do
 type AuthController interface {
 	Login(ctx *gin.Context)
-	Register(ctx *gin.Context)
+	// Register(ctx *gin.Context)
 }
 
 type authController struct {
@@ -47,27 +47,6 @@ func (c *authController) Login(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK, response)
 		return
 	}
-	response := helper.BuildErrorResponse("Please check again your credential", "Invalid Credential", authResult)
+	response := helper.BuildErrorResponse("Vui lòng kiểm tra lại thông tin đăng nhập", "Tài khoản hoặc mật khẩu không đúng", authResult)
 	ctx.AbortWithStatusJSON(http.StatusUnauthorized, response)
-}
-
-func (c *authController) Register(ctx *gin.Context) {
-	var registerDTO dto.RegisterDTO
-	errDTO := ctx.ShouldBind(&registerDTO)
-	if errDTO != nil {
-		response := helper.BuildErrorResponse("Failed to process request", errDTO.Error(), helper.EmptyObj{})
-		ctx.AbortWithStatusJSON(http.StatusBadRequest, response)
-		return
-	}
-
-	if !c.authService.IsDuplicateEmail(registerDTO.Email) {
-		response := helper.BuildErrorResponse("Failed to process request", "Duplicate email", helper.EmptyObj{})
-		ctx.JSON(http.StatusConflict, response)
-	} else {
-		createdUser := c.authService.CreateUser(registerDTO)
-		token := c.jwtService.GenerateToken(strconv.FormatUint(createdUser.ID, 10))
-		createdUser.Token = token
-		response := helper.BuildResponse(true, "OK!", createdUser)
-		ctx.JSON(http.StatusCreated, response)
-	}
 }

@@ -3,8 +3,8 @@ package service
 import (
 	"log"
 
-	"seoulspa_api/dto"
-	"seoulspa_api/entity"
+	entity "seoulspa-api/entity/admin_users"
+	dto "seoulspa_api/dto/admin-users"
 	"seoulspa_api/repository"
 
 	"github.com/mashingan/smapping"

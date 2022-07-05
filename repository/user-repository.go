@@ -2,8 +2,7 @@ package repository
 
 import (
 	"log"
-
-	"seoulspa_api/entity"
+	entity "seoulspa-api/entity/admin_users"
 
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
