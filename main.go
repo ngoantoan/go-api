@@ -39,7 +39,7 @@ func main() {
 		userRoutes.PUT("/profile", userController.Update)
 	}
 
-	commentRoutes := r.Group("api/comment")
+	commentRoutes := r.Group("api/comment", middleware.AuthorizeJWT(jwtService))
 	{
 		commentRoutes.GET("/get-list-comment", controller.GetListComment)
 	}

@@ -16,7 +16,7 @@ func AuthorizeJWT(jwtService service.JWTService) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		authHeader := c.GetHeader("Authorization")
 		if authHeader == "" {
-			response := helper.BuildErrorResponse("Failed to process request", "No token found", nil)
+			response := helper.BuildErrorResponse("Không thể xử lý đưọc yêu cầu", "Không tìm thấy token", nil)
 			c.AbortWithStatusJSON(http.StatusBadRequest, response)
 			return
 		}
@@ -27,7 +27,7 @@ func AuthorizeJWT(jwtService service.JWTService) gin.HandlerFunc {
 			log.Println("Claim[issuer] :", claims["issuer"])
 		} else {
 			log.Println(err)
-			response := helper.BuildErrorResponse("Token is not valid", err.Error(), nil)
+			response := helper.BuildErrorResponse("Token không hợp lệ", err.Error(), nil)
 			c.AbortWithStatusJSON(http.StatusUnauthorized, response)
 		}
 	}
